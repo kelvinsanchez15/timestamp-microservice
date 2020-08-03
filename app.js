@@ -8,17 +8,17 @@ app.get("/api/timestamp/:date_string?", (req, res) => {
   const input = req.params.date_string;
   let date;
 
-  if (input) {
-    date = new Date(input);
-  } else {
+  if (!input) {
     date = new Date();
+  } else {
+    !isNaN(input)
+      ? (date = new Date(parseInt(input)))
+      : (date = new Date(input));
   }
 
-  if (date == "Invalid Date") {
-    return res.json({ error: "Invalid Date" });
-  }
-
-  res.json({ unix: date.getTime(), utc: date.toUTCString() });
+  date == "Invalid Date"
+    ? res.json({ error: "Invalid Date" })
+    : res.json({ unix: date.getTime(), utc: date.toUTCString() });
 });
 
 app.listen(port, () => console.log(`Server runnig at port ` + port));
