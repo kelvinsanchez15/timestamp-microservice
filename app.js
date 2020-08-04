@@ -1,8 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get("/", (req, res) => res.send("MAIN ROUTE"));
+app.use(cors({ optionSuccessStatus: 200 }));
+
+app.use(express.static("public"));
+app.get("/", (req, res) => res.sendFile(`${__dirname}/views/index.html`));
 
 app.get("/api/timestamp/:date_string?", (req, res) => {
   const input = req.params.date_string;
